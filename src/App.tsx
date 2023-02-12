@@ -1,10 +1,10 @@
 import { Container } from "@chakra-ui/react";
-import { Login } from "./auth/login.component";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <Container>
-      <Login />
+      <Outlet />
     </Container>
   );
 }

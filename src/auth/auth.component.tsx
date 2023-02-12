@@ -1,6 +1,7 @@
-import { ReactElement, useState, cloneElement } from "react";
+import { ReactElement, useState, cloneElement, useEffect } from "react";
 import { UserId } from "./auth.interface";
 import { authContext } from "./auth.context";
+import { redirect } from "react-router-dom";
 
 interface AuthComponentProps {
   children: ReactElement;
@@ -25,6 +26,12 @@ export function Auth({ children }: AuthComponentProps) {
       userId,
     }));
   }
+
+  useEffect(() => {
+    const redirectPath = !authState.userId ? "/sign-in" : "/home";
+
+    redirect(redirectPath);
+  }, []);
 
   return (
     <AuthContextProvider value={authState}>
