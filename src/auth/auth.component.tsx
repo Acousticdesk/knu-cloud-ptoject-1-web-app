@@ -15,14 +15,14 @@ const { Provider: AuthContextProvider } = authContext;
 
 export function Auth({ children }: AuthComponentProps) {
   const [authState, setAuthState] = useState<AuthComponentState>({
-    userId: null,
+    userId: "",
     setUserId,
   });
 
-  function setUserId(id: UserId) {
+  function setUserId(userId: UserId) {
     setAuthState((state) => ({
       ...state,
-      id,
+      userId,
     }));
   }
 

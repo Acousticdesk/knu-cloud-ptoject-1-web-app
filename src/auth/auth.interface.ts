@@ -1,1 +1,1 @@
-export type UserId = string | null;
+export type UserId = string;

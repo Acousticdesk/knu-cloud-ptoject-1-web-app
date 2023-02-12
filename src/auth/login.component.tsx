@@ -11,7 +11,7 @@ export function Login({}) {
         <Box>
           <Input
             placeholder="User ID"
-            value={!userId ? undefined : userId}
+            value={userId}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setUserId(e.target.value)
             }
