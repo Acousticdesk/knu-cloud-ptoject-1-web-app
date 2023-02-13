@@ -4,18 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { authContext } from "./auth.context";
 import { signIn } from "../api/mock";
 import { AuthDTO } from "../api/auth/api-auth.interfaces";
+import { useAsync } from "../async/hooks";
 
 const { Consumer: AuthContextConsumer } = authContext;
 
 export function Login({}) {
   const navigate = useNavigate();
+  const { isLoading, asyncPerform } = useAsync();
 
   async function handleFormSubmit(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
 
-    await signIn(Object.fromEntries(formData.entries()) as unknown as AuthDTO);
+    await asyncPerform(() =>
+      signIn(Object.fromEntries(formData.entries()) as unknown as AuthDTO)
+    );
 
     navigate("/collections");
   }
@@ -35,7 +39,12 @@ export function Login({}) {
                 }
               />
             </FormControl>
-            <Button mt={6} type="submit">
+            <Button
+              colorScheme="red"
+              mt={6}
+              type="submit"
+              isLoading={isLoading}
+            >
               Sign In
             </Button>
           </Box>

@@ -30,9 +30,9 @@ export function Auth({ children }: AuthComponentProps) {
   }
 
   useEffect(() => {
-    const redirectPath = !authState.userId ? "/sign-in" : "/home";
-
-    navigate(redirectPath);
+    if (!authState.userId) {
+      navigate("/home");
+    }
   }, []);
 
   return (

@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Login } from "./auth/login.component";
 import { ChooseCollection } from "./collection/choose-collection.component";
 import { Root } from "./Root";
+import { Home } from "./home/home.component";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
       {
         path: "collections",
         element: <ChooseCollection />,
+      },
+      {
+        path: "home",
+        element: <Home />,
       },
     ],
   },
