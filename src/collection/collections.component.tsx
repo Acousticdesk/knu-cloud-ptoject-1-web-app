@@ -10,26 +10,16 @@ import {
 import { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function ChooseCollection({}) {
+export function ChooseCollection() {
   const navigate = useNavigate();
 
-  async function handleFormSubmit(e: ChangeEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    // await signIn(Object.fromEntries(formData.entries()) as unknown as AuthDTO);
-
-    navigate("/remarks");
-  }
-
   return (
-    <Box>
+    <Box pt={8}>
       <Heading size="lg" mb={8}>
         Your Collections
       </Heading>
       <SimpleGrid columns={2} spacing={10}>
-        <Card cursor="pointer">
+        <Card cursor="pointer" onClick={() => navigate("/collections/1")}>
           <CardHeader>
             <Heading size="md">Collection Name</Heading>
           </CardHeader>
