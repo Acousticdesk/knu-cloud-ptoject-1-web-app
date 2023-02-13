@@ -1,7 +1,7 @@
 import { ReactElement, useState, cloneElement, useEffect } from "react";
 import { UserId } from "./auth.interface";
 import { authContext } from "./auth.context";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface AuthComponentProps {
   children: ReactElement;
@@ -20,6 +20,8 @@ export function Auth({ children }: AuthComponentProps) {
     setUserId,
   });
 
+  const navigate = useNavigate();
+
   function setUserId(userId: UserId) {
     setAuthState((state) => ({
       ...state,
@@ -30,7 +32,7 @@ export function Auth({ children }: AuthComponentProps) {
   useEffect(() => {
     const redirectPath = !authState.userId ? "/sign-in" : "/home";
 
-    redirect(redirectPath);
+    navigate(redirectPath);
   }, []);
 
   return (
