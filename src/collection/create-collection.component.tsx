@@ -8,12 +8,17 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  Input,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
+
+import { ChangeEvent } from "react";
 
 interface CreateCollectionProps {
   isOpen: boolean;
   onClose: ModalProps["onClose"];
-  createNewCollection: (...args: unknown[]) => void;
+  createNewCollection: (e: ChangeEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 }
 
@@ -29,14 +34,26 @@ export function CreateCollection({
       <ModalContent>
         <ModalHeader>Create New Collection</ModalHeader>
         <ModalCloseButton />
-        <ModalBody></ModalBody>
+        <ModalBody>
+          <form id="create_collection_form" onSubmit={createNewCollection}>
+            <FormControl>
+              <FormLabel>Name</FormLabel>
+              <Input name="collectionName" />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Description</FormLabel>
+              <Input name="collectionDescription" />
+            </FormControl>
+          </form>
+        </ModalBody>
 
         <ModalFooter>
           <Button
             isLoading={isLoading}
             colorScheme="red"
             mr={3}
-            onClick={createNewCollection}
+            type="submit"
+            form="create_collection_form"
           >
             Create
           </Button>

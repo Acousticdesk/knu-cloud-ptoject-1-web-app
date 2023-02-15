@@ -1,4 +1,5 @@
 import { AuthDTO } from "./auth/api-auth.interfaces";
+import { CreateCollectionDTO } from "../collection/interfaces";
 
 export function signIn(data: AuthDTO) {
   return new Promise((resolve) => {
@@ -8,7 +9,7 @@ export function signIn(data: AuthDTO) {
   });
 }
 
-export function createNewCollectionMock() {
+export function createNewCollectionMock(data: CreateCollectionDTO) {
   return new Promise((resolve) => {
     window.setTimeout(() => {
       resolve({

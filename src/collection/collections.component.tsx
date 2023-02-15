@@ -16,6 +16,8 @@ import { CreateCollection } from "./create-collection.component";
 import { useModal } from "../modal/hooks";
 import { createNewCollectionMock } from "../api/mock";
 import { useAsync } from "../async/hooks";
+import { ChangeEvent } from "react";
+import { CreateCollectionDTO } from "./interfaces";
 
 export function ChooseCollection() {
   const navigate = useNavigate();
@@ -24,8 +26,14 @@ export function ChooseCollection() {
   const { isLoading, asyncPerform } = useAsync();
   const toast = useToast();
 
-  async function createNewCollection() {
-    await asyncPerform(createNewCollectionMock);
+  async function createNewCollection(e: ChangeEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    await asyncPerform(() =>
+      createNewCollectionMock(
+        Object.fromEntries(formData.entries()) as unknown as CreateCollectionDTO
+      )
+    );
     closeModal();
     toast({
       title: "Collection created",
