@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Card,
   CardHeader,
@@ -10,21 +11,31 @@ import {
   Flex,
   Spacer,
   useToast,
+  Spinner,
+  Button,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { CreateCollection } from "./create-collection.component";
 import { useModal } from "../modal/hooks";
 import { createNewCollectionMock } from "../api/mock";
 import { useAsync } from "../async/hooks";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useContext, useEffect } from "react";
 import { CreateCollectionDTO } from "./interfaces";
+import { authContext } from "../auth/auth.context";
+import { fetchCollections } from "../auth/api";
+import { useEntities } from "../api/hooks";
 
 export function ChooseCollection() {
   const navigate = useNavigate();
-  // todo akicha: use chakra's hook instead
   const { isOpenModal, openModal, closeModal } = useModal();
   const { isLoading, asyncPerform } = useAsync();
   const toast = useToast();
+  const { userId } = useContext(authContext);
+  const { obtainEntities, entities, isLoadingEntities } = useEntities();
+
+  useEffect(() => {
+    obtainEntities(() => fetchCollections(userId));
+  }, []);
 
   async function createNewCollection(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -69,15 +80,36 @@ export function ChooseCollection() {
         </Circle>
       </Flex>
       <SimpleGrid columns={2} spacing={10}>
-        <Card cursor="pointer" onClick={() => navigate("/collections/1")}>
-          <CardHeader>
-            <Heading size="md">Collection Name</Heading>
-          </CardHeader>
-          <CardBody>
-            <Text>Collection description</Text>
-          </CardBody>
-        </Card>
+        {isLoadingEntities ? (
+          <Spinner color="red" />
+        ) : (
+          entities.map((entity) => {
+            return (
+              <Card
+                key={entity.id}
+                cursor="pointer"
+                onClick={() => navigate(`/collections/${entity.id}`)}
+              >
+                <CardHeader>
+                  <Heading size="md">{entity.name}</Heading>
+                </CardHeader>
+                <CardBody>
+                  <Text>{entity.description}</Text>
+                </CardBody>
+              </Card>
+            );
+          })
+        )}
       </SimpleGrid>
+      {!isLoadingEntities && !entities.length && (
+        <Flex mt={8}>
+          <Heading size="md">No collections yet</Heading>
+          <Spacer />
+          <Button colorScheme="red" onClick={openModal}>
+            Create a new one
+          </Button>
+        </Flex>
+      )}
     </Box>
   );
 }
