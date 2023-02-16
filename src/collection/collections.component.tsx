@@ -108,13 +108,12 @@ export function ChooseCollection() {
         })}
       </SimpleGrid>
       {!isLoadingEntities && !entities.length && (
-        <Flex mt={8}>
-          <Heading size="md">No collections yet</Heading>
-          <Spacer />
-          <Button colorScheme="red" onClick={openModal}>
+        <Box mt={16} textAlign="center">
+          <Text>No collections yet</Text>
+          <Button mt={4} colorScheme="red" onClick={openModal}>
             Create a new one
           </Button>
-        </Flex>
+        </Box>
       )}
     </Box>
   );
