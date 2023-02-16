@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { timeout } from "../async/timeout";
 
 export function useEntities() {
   const [entities, setEntities] = useState([]);
@@ -12,7 +13,8 @@ export function useEntities() {
           // @ts-ignore
           .then((res) => res.json())
           .then((entities) => setEntities(entities))
-          .finally(() => setIsLoadingEntities(false))
+          .finally(() => timeout(500))
+          .then(() => setIsLoadingEntities(false))
       );
     },
     entities,

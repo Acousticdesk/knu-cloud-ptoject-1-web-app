@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { timeout } from "./timeout";
 
 export function useAsync() {
   const [isLoading, setIsLoading] = useState(false);
@@ -6,7 +7,9 @@ export function useAsync() {
   return {
     asyncPerform: (doAsync: (...args: unknown[]) => Promise<unknown>) => {
       setIsLoading(true);
-      return doAsync().finally(() => setIsLoading(false));
+      return doAsync()
+        .finally(() => timeout(500))
+        .then(() => setIsLoading(false));
     },
     isLoading,
   };
