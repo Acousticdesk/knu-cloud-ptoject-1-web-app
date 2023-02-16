@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { fetchRemark } from "../auth/api";
 import { useParams } from "react-router-dom";
 import { FullScreenLoader } from "../async/full-screen-loader.component";
+import { formatDate } from "../date/formatters";
 
 export function RemarkDetails() {
   const isHistory = false;
@@ -35,7 +36,7 @@ export function RemarkDetails() {
       <Heading size="lg" mb={8}>
         {entities.name}
       </Heading>
-      <Text>{entities.date}</Text>
+      <Text>Created on: {formatDate(entities.date)}</Text>
       {isHistory && (
         <>
           <Heading mt={8} size="md" mb={8}>

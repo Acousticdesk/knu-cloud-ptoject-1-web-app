@@ -11,7 +11,6 @@ import {
   Spacer,
   Button,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,10 +18,10 @@ import { useModal } from "../modal/hooks";
 import { CreateRemark } from "../remarks/create-remark.component";
 import { ChangeEvent, useEffect } from "react";
 import { useAsync } from "../async/hooks";
-import { createNewRemarkMock } from "../api/mock";
+import { formatDate } from "../date/formatters";
 import { CreateRemarkDTO } from "../remarks/interfaces";
 import { useEntities } from "../api/hooks";
-import { fetchCollection, fetchRemarks } from "../auth/api";
+import { createRemark, fetchCollection, fetchRemarks } from "../auth/api";
 import { FullScreenLoader } from "../async/full-screen-loader.component";
 
 export function CollectionDetails() {
@@ -47,12 +46,18 @@ export function CollectionDetails() {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+    const payload = Object.fromEntries(
+      formData.entries()
+    ) as unknown as CreateRemarkDTO;
 
     await asyncPerform(() =>
-      createNewRemarkMock(
-        Object.fromEntries(formData.entries()) as unknown as CreateRemarkDTO
-      )
+      createRemark({
+        ...payload,
+        collection: collectionId,
+      })
     );
+
+    obtainRemarks(() => fetchRemarks(collectionId as string));
 
     closeModal();
 
@@ -95,7 +100,7 @@ export function CollectionDetails() {
                 <Heading size="md">{remark.name}</Heading>
               </CardHeader>
               <CardBody>
-                <Text>{remark.date}</Text>
+                <Text>Created on: {formatDate(remark.date)}</Text>
               </CardBody>
             </Card>
           );

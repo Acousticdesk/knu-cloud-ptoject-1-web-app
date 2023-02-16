@@ -38,7 +38,7 @@ export function CreateRemark({
           <form id="create_remark_form" onSubmit={createNewRemark}>
             <FormControl>
               <FormLabel>Name</FormLabel>
-              <Input name="remarkName" />
+              <Input name="name" />
             </FormControl>
           </form>
         </ModalBody>
