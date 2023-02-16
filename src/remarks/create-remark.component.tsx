@@ -40,10 +40,6 @@ export function CreateRemark({
               <FormLabel>Name</FormLabel>
               <Input name="remarkName" />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Input name="remarkDescription" />
-            </FormControl>
           </form>
         </ModalBody>
 

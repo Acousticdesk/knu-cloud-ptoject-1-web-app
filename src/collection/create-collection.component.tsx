@@ -38,11 +38,7 @@ export function CreateCollection({
           <form id="create_collection_form" onSubmit={createNewCollection}>
             <FormControl>
               <FormLabel>Name</FormLabel>
-              <Input name="collectionName" />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Input name="collectionDescription" />
+              <Input name="name" />
             </FormControl>
           </form>
         </ModalBody>

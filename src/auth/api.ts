@@ -1,4 +1,5 @@
 import { BASE_URL } from "../api/consts";
+import { CreateCollectionDTO } from "../collection/interfaces";
 
 export function fetchCollections(userId: string) {
   return fetch(`${BASE_URL}/collections/all/${userId}`);
@@ -14,4 +15,14 @@ export function fetchRemarks(collectionId: string) {
 
 export function fetchRemark(remarkId: string) {
   return fetch(`${BASE_URL}/remarks/${remarkId}`);
+}
+
+export function createCollection(data: CreateCollectionDTO) {
+  return fetch(`${BASE_URL}/collections`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }

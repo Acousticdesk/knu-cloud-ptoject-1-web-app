@@ -22,7 +22,7 @@ import { useAsync } from "../async/hooks";
 import { ChangeEvent, useContext, useEffect } from "react";
 import { CreateCollectionDTO } from "./interfaces";
 import { authContext } from "../auth/auth.context";
-import { fetchCollections } from "../auth/api";
+import { createCollection, fetchCollections } from "../auth/api";
 import { useEntities } from "../api/hooks";
 import { FullScreenLoader } from "../async/full-screen-loader.component";
 
@@ -41,11 +41,16 @@ export function ChooseCollection() {
   async function createNewCollection(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const payload = Object.fromEntries(
+      formData.entries()
+    ) as unknown as CreateCollectionDTO;
     await asyncPerform(() =>
-      createNewCollectionMock(
-        Object.fromEntries(formData.entries()) as unknown as CreateCollectionDTO
-      )
+      createCollection({
+        ...payload,
+        userId,
+      })
     );
+    obtainEntities(() => fetchCollections(userId));
     closeModal();
     toast({
       title: "Collection created",
