@@ -11,3 +11,7 @@ export function fetchCollection(collectionId: string) {
 export function fetchRemarks(collectionId: string) {
   return fetch(`${BASE_URL}/remarks/collection/${collectionId}`);
 }
+
+export function fetchRemark(remarkId: string) {
+  return fetch(`${BASE_URL}/remarks/${remarkId}`);
+}

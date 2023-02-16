@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {
   Heading,
   Thead,
@@ -8,15 +10,32 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import { useEntities } from "../api/hooks";
+import { useEffect } from "react";
+import { fetchRemark } from "../auth/api";
+import { useParams } from "react-router-dom";
+import { FullScreenLoader } from "../async/full-screen-loader.component";
 
 export function RemarkDetails() {
   const isHistory = false;
+
+  const { entities, isLoadingEntities, obtainEntities } = useEntities();
+  const { remarkId } = useParams();
+
+  useEffect(() => {
+    obtainEntities(() => fetchRemark(remarkId as string));
+  }, []);
+
+  if (isLoadingEntities) {
+    return <FullScreenLoader />;
+  }
+
   return (
     <Box pt={8}>
       <Heading size="lg" mb={8}>
-        Remark Name
+        {entities.name}
       </Heading>
-      <Text>Remark Description</Text>
+      <Text>{entities.date}</Text>
       {isHistory && (
         <>
           <Heading mt={8} size="md" mb={8}>

@@ -24,6 +24,7 @@ import { CreateCollectionDTO } from "./interfaces";
 import { authContext } from "../auth/auth.context";
 import { fetchCollections } from "../auth/api";
 import { useEntities } from "../api/hooks";
+import { FullScreenLoader } from "../async/full-screen-loader.component";
 
 export function ChooseCollection() {
   const navigate = useNavigate();
@@ -55,6 +56,10 @@ export function ChooseCollection() {
     // todo akicha: update collection
   }
 
+  if (isLoadingEntities) {
+    return <FullScreenLoader />;
+  }
+
   return (
     <Box pt={8}>
       <CreateCollection
@@ -80,26 +85,22 @@ export function ChooseCollection() {
         </Circle>
       </Flex>
       <SimpleGrid columns={2} spacing={10}>
-        {isLoadingEntities ? (
-          <Spinner color="red" />
-        ) : (
-          entities.map((entity) => {
-            return (
-              <Card
-                key={entity.id}
-                cursor="pointer"
-                onClick={() => navigate(`/collections/${entity.id}`)}
-              >
-                <CardHeader>
-                  <Heading size="md">{entity.name}</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Text>{entity.description}</Text>
-                </CardBody>
-              </Card>
-            );
-          })
-        )}
+        {entities.map((entity) => {
+          return (
+            <Card
+              key={entity.id}
+              cursor="pointer"
+              onClick={() => navigate(`/collections/${entity.id}`)}
+            >
+              <CardHeader>
+                <Heading size="md">{entity.name}</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text>{entity.description}</Text>
+              </CardBody>
+            </Card>
+          );
+        })}
       </SimpleGrid>
       {!isLoadingEntities && !entities.length && (
         <Flex mt={8}>

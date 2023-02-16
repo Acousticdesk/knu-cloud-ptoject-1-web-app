@@ -23,6 +23,7 @@ import { createNewRemarkMock } from "../api/mock";
 import { CreateRemarkDTO } from "../remarks/interfaces";
 import { useEntities } from "../api/hooks";
 import { fetchCollection, fetchRemarks } from "../auth/api";
+import { FullScreenLoader } from "../async/full-screen-loader.component";
 
 export function CollectionDetails() {
   const navigate = useNavigate();
@@ -63,8 +64,8 @@ export function CollectionDetails() {
     });
   }
 
-  if (isLoadingEntities) {
-    return <Spinner color="red" />;
+  if (isLoadingEntities || isLoadingRemarks) {
+    return <FullScreenLoader />;
   }
 
   return (
@@ -82,27 +83,24 @@ export function CollectionDetails() {
           Create Remark
         </Button>
       </Flex>
-      {isLoadingRemarks && <Spinner color="red" />}
-      {!isLoadingRemarks && (
-        <SimpleGrid columns={2} spacing={10}>
-          {remarks.map((remark) => {
-            return (
-              <Card
-                key={remark.id}
-                cursor="pointer"
-                onClick={() => navigate(`/remarks/${remark.id}`)}
-              >
-                <CardHeader>
-                  <Heading size="md">{remark.name}</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Text>{remark.date}</Text>
-                </CardBody>
-              </Card>
-            );
-          })}
-        </SimpleGrid>
-      )}
+      <SimpleGrid columns={2} spacing={10}>
+        {remarks.map((remark) => {
+          return (
+            <Card
+              key={remark.id}
+              cursor="pointer"
+              onClick={() => navigate(`/remarks/${remark.id}`)}
+            >
+              <CardHeader>
+                <Heading size="md">{remark.name}</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text>{remark.date}</Text>
+              </CardBody>
+            </Card>
+          );
+        })}
+      </SimpleGrid>
     </Box>
   );
 }
