@@ -53,6 +53,7 @@ export function CollectionDetails() {
     await asyncPerform(() =>
       createRemark({
         ...payload,
+        date: new Date().toLocaleDateString(),
         collection: collectionId,
       })
     );
